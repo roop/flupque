@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<!--
+
+Flickr Uploadr
+
+Copyright (c) 2007 Yahoo! Inc.  All rights reserved.  This library is free
+software; you can redistribute it and/or modify it under the terms of the
+GNU General Public License (GPL), version 2 only.  This library is
+distributed WITHOUT ANY WARRANTY, whether express or implied. See the GNU
+GPL for more details (http://www.gnu.org/licenses/gpl.html)
+
+-->
+<link rel="stylesheet" type="text/css" href="../skin/main.css" />
+<script type="text/javascript" src="../scripts/fileDialog.js"></script>
+
+		<!-- Header -->
+		<div align="left" id="head">
+			<div align="left" id="tools">
+                <ul>
+				<li>
+					<div id="t_add" class="button" onclick="fileDialog.add_photo();"
+					><div>+ ADD</div></div>
+				</li>
+				<li>
+					<div id="t_remove" class="disabled_button" onclick="photos.remove();"
+					><div>- REMOVE</div></div>
+				</li>
+                <li>
+					<div class="toolbarseparator">&nbsp;</div>
+                </li>
+				<li>
+					<div id="t_rotate_l" class="disabled"
+					onclick="photos.rotate(-90);">&nbsp;</div>
+				</li>
+				<li>
+					<div id="t_rotate_r" class="disabled"
+					onclick="photos.rotate(90);">&nbsp;</div>
+				</li>
+            <li>
+			<div id="bw_remaining" align="right">
+				<p>bandwidth.remaining;</p>
+				<h3 id="bw_remaining_mb">20 MB</h3>
+			</div>
+            </li>
+            </ul>
+			<div id="bw_batch">
+				<p>This batch</p>
+				<h3 id="bw_batch_mb">0 MB</h3>
+			</div>
+			</div>
+		</div>
+
+		<!-- Placeholder for photos and metadata overlay -->
+		<div id="page_photos" flex="1">
+				<table id="photostream" width="100%">
+					<tr>
+						<td rowspan="2">
+                        <!-- img src="http://flickr.com/images/buddyicon.jpg"
+						id="buddyicon" width="48" height="48" /-->
+                        </td>
+						<td nowrap="nowrap">
+							<h1>Your photos<img id="photostream_pro"
+							src="../skin/badge_pro.gif" width="20" height="12"
+							/></h1>
+							<p id="username">You're working offline<span id="switch"
+							class="link" onclick="settings.show();">&switch;</span></p>
+						</td>
+						<td id="photostream_tools" width="100%">
+							<ul align="right">
+                                <li>
+								<div id="login" class="small button"
+								onclick="buttons.login.click();"
+								><div id="login_inner" align="left">Sign in</div></div>
+                                </li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+        </div>
+        	    <div>
+					<p id="photos_sort_default">photos.sort.default;</p>
+					<p id="photos_sort_revert" class="link">photos.sort.revert;</p>
+				</div>
+				<div id="photos_stack">
+					<ul id="photos_list"></ul>
+					<div id="drag_select" />
+					<p id="drag_follower"> </p>
+				</div>
+				<div id="photos_init">
+					<h1>Drag photos here to get started</h1>
+					<ul>
+						<li><h2>Or click</h2></li>
+						<li><div class="button" onclick="fileDialog.add_photo();"
+						><div>+ ADD</div></div></li>
+						<li><h2>to find photos on your computer</h2></li>
+					</ul>
+				</div>
+				<div id="photos_new">
+					<h1>&photos.new;</h1>
+				</div>
+			</scrollbox>
+			<vbox>
+
+
+		<!-- Page to show during authorization -->
+		<div id="page_auth" flex="1">
+			<spacer flex="1" />
+			<h1>&auth.confirm;</h1>
+			<div align="left"><spacer flex="1" /><div id="button_auth" class="button"
+			onclick="buttons.auth.click();"
+			><div>buttons.auth;</div></div><spacer flex="1" /></div>
+			<spacer flex="1" />
+		</div>
+		
+		<!-- Placeholder for help page -->
+		<div id="page_help" flex="1" />
+
+		<!-- Upload progress bar and (hidden) upload queue -->
+		<div align="left" id="footer" class="photos">
+			<div align="left" id="progress" flex="1">
+				<box id="progress_queue" onclick="mouse.toggle();" />
+				<stack flex="1">
+					<box flex="1"><box id="progress_bar" /></box>
+					<label id="progress_text" />
+				</stack>
+				<div><div id="button_cancel" class="small button"
+				onclick="buttons.cancel.click();"
+				><div>buttons.cancel;</div></div></div>
+			</div>
+		</div>
+		<div id="page_queue" flex="1"><ul id="queue_list" /></div>
+
+	</div>
+
+	<!-- Status bar for showing helpful messages -->
+	<statusbar>
+		<statusbarpanel id="status" label="" flex="1" />
+	</statusbar>
+
+</window>
