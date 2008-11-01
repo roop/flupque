@@ -1,6 +1,6 @@
 
-var fileDialog = {
-    add_photo: function() {
+var photo = {
+    add_dialog: function() {
         var fuFileDialog = window.fuFileDialog;
         fuFileDialog.clearNameFilters();
         fuFileDialog.addNameFilter("Photos (*.jpg *.tiff)");
