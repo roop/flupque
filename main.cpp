@@ -3,10 +3,10 @@
 #include <QtWebKit> 
 #include <QFileDialog>
 
-class FuFileDialog : public QFileDialog {
+class FluFileDialog : public QFileDialog {
     Q_OBJECT
 public:
-    FuFileDialog(QWidget * parent = 0, Qt::WindowFlags flags = 0)
+    FluFileDialog(QWidget * parent = 0, Qt::WindowFlags flags = 0)
         : QFileDialog(parent, flags) {
         setFileMode(QFileDialog::ExistingFiles);
         setViewMode(QFileDialog::List);
@@ -40,13 +40,13 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    FuFileDialog fuFileDialog;
+    FluFileDialog fluFileDialog;
 
     QWebView *view = new QWebView();
     view->load(QUrl("html/main.html"));
     view->show();
 
-    view->page()->mainFrame()->addToJavaScriptWindowObject("fuFileDialog", &fuFileDialog);
+    view->page()->mainFrame()->addToJavaScriptWindowObject("fluFileDialog", &fluFileDialog);
 
     return app.exec();
 }
