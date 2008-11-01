@@ -51,4 +51,4 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 
-#include "FliqrUp.moc"
+#include "main.moc"
