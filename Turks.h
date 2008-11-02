@@ -31,6 +31,7 @@ public slots:
 private:
     QWebFrame *m_frame;
     QList<QThread*> threads;
+    QList<QString> thumbnails;
 };
 
 #endif

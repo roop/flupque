@@ -50,7 +50,7 @@ QString ThumbnailWorker::thumbnailPath() {
 }
 
 void ThumbnailWorker::run() {
-    sleep(5);
+    // sleep(5);
     // create the thumbnail
     if (m_imagePath.isEmpty() || m_thumbnailPath.isEmpty())
         return;
