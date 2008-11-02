@@ -58,6 +58,11 @@ var photo = {
         var thumb = window.fluTurks.createThumbnail(path, 116, 116, 
                        "show_thumbnail( \"" + img.name + "\", \"$1\", $2, $3);"
                        );
+
+        if (this.photocount == 1) {
+	        document.getElementById('meta_prompt').style.visibility = 'visible';
+            this.show_meta_message();
+        }
     },
 
     select_photo: function(id) {
@@ -66,6 +71,11 @@ var photo = {
         this.selectedcount++;
         if (this.selectedcount == 1) {
             this.enable_photo_actions();
+            this.show_meta_preview(id);
+            this.show_meta_message();
+        } else {
+            this.hide_meta_preview();
+            this.show_meta_message();
         }
     },
 
@@ -75,7 +85,57 @@ var photo = {
         this.selectedcount--;
         if (this.selectedcount == 0) {
             this.disable_photo_actions();
+            this.hide_meta_preview();
+            this.show_meta_message();
         }
+        if (this.selectedcount == 1) {
+            for (var i = 0; i < this.photolist.length; i++) {
+                if (this.photolist[i] != undefined && this.photolist[i].is_selected) {
+                    this.show_meta_preview(i);
+                    this.show_meta_message();
+                    break;
+                }
+            }
+        }
+    },
+
+    show_meta_message: function() {
+       var status_elem = document.getElementById('meta_prompt_status');
+       var meta_prompt = document.getElementById('meta_prompt');
+       if (status_elem != undefined) {
+           meta_prompt.removeChild(status_elem);
+       }
+
+       var msg_text;
+       if (this.selectedcount == 0) {
+            msg_text = "Select a photo (or many) to add titles, tags and descriptions"
+       } else {
+            msg_text = "You can now replace all titles with a new one, add to existing descriptions, or add more tags."
+       }
+       var status_msg = document.createTextNode(msg_text);
+       var h3 = document.createElement('h3');
+       h3.appendChild(status_msg);
+       var new_status_elem = document.createElement('div');
+       new_status_elem.id = 'meta_prompt_status';
+       new_status_elem.className = "status";
+       new_status_elem.appendChild(h3);
+       meta_prompt.insertBefore(new_status_elem, meta_prompt.firstChild);
+    },
+
+    show_meta_preview: function(id) {
+       var img = document.images['photo' + id];
+
+       var preview_elem = document.getElementById('meta_single_preview');
+       preview_elem.src = img.src;
+       preview_elem.width = img.width;
+       preview_elem.height = img.height;
+       preview_elem.style.display = 'block';
+
+	   document.getElementById('meta_prompt').style.visibility = 'visible';
+    },
+
+    hide_meta_preview: function() {
+       document.getElementById('meta_single_preview').style.display = 'none';
     },
 
     enable_photo_actions: function() {
@@ -100,6 +160,9 @@ var photo = {
         }
         this.selectedcount = 0;
         this.disable_photo_actions();
+
+        if (this.photocount == 0)
+            document.getElementById('meta_prompt').style.visibility = 'hidden';
     }
 };
 

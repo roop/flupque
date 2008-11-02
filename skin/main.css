@@ -502,18 +502,22 @@ div.toolbarseparator {
 
 /* Three states, depending on what's selected */
 #meta, #batch_meta, #no_meta, #meta_button {
-	width: 420px;
+	width: 450px;
 	padding: 5px;
 	background: #f8f8f8;
 	border-left: 1px solid #ddd;
 }
 #meta, #batch_meta {
-	display: none;
+	/* display: none; */
 }
 #meta, #batch_meta, #no_meta {
 	overflow: auto;
 }
-#no_meta_prompt {
+#meta_prompt {
+	visibility: hidden;
+}
+
+#single_prompt {
 	visibility: hidden;
 }
 
@@ -541,9 +545,24 @@ div.toolbarseparator {
 	margin: 4px 0 0 0;
 	padding: 0 0 0 4px;
 	display: block;
+    font-family: "Lucida Grande", "Verdana", "Sans serif", "Sans";
+    font-size: 12px;
 }
-#meta textbox, #batch_meta textbox, #no_meta textbox {
+#meta textarea, #batch_meta textarea, #no_meta textarea {
 	width: 180px;
+}
+#meta input, #batch_meta input, #no_meta input {
+	width: 180px;
+}
+.radio_b {
+	width: auto;
+    margin: 0;
+    padding: 0;
+}
+.checkbox_b {
+	width: auto;
+    margin: 0;
+    padding: 0;
 }
 
 /* Initially, and while logged-out, don't show sets */
@@ -559,7 +578,7 @@ div.toolbarseparator {
 }
 
 /* If one image selected, this shows the thumbnail */
-#single_preview {
+#meta_single_preview {
 	display: none;
 }
 #meta_div {

@@ -51,8 +51,11 @@ GPL for more details (http://www.gnu.org/licenses/gpl.html)
 			</div>
 		</div>
 
+        <table align="right"><tr>
+        <td>
 		<!-- Placeholder for photos and metadata overlay -->
 		<div id="page_photos" flex="1">
+            <div id="photos">
 				<table id="photostream" width="100%">
 					<tr>
 						<td rowspan="2">
@@ -77,7 +80,6 @@ GPL for more details (http://www.gnu.org/licenses/gpl.html)
 						</td>
 					</tr>
 				</table>
-        </div>
         	    <div>
 					<p id="photos_sort_default">photos.sort.default;</p>
 					<p id="photos_sort_revert" class="link">photos.sort.revert;</p>
@@ -99,9 +101,56 @@ GPL for more details (http://www.gnu.org/licenses/gpl.html)
 				<div id="photos_new">
 					<h1>&photos.new;</h1>
 				</div>
-			</scrollbox>
-			<vbox>
-
+            </div> <!-- End of div id="photos" -->
+        </div> <!-- End of div id="page_photos" -->
+        </td>
+        <td width="420px" align="right" style="margin-right: 0px;" >
+        <div id="meta" align="left">
+            <table>
+            <tr>
+            <div id="meta_prompt" class="thumb_height" align="center">
+                <img id="meta_single_preview" src="" width="" height=""/>
+            </div>
+            </tr>
+            <tr>
+            <td>
+            <div class="column">
+                <p>Title:</p> <input size="30" type="text" name="title" value=""></input><br/>
+                <p>Description:</p>
+                <textarea cols="30" rows="6" name="description" value=""></textarea><br/>
+                <p>Tags:</p>
+                <textarea cols="30" rows="4" name="tags" value=""></textarea><br/>
+            </div>
+            </td>
+            <td>
+            <div class="column" valign="top">
+                <form action="">
+                <p>Who can see this photo?</p>
+                <span class="radio_b">
+                    <input type="radio" name="whocansee" value="onlyyou"/>
+                    <p>Only you</p>
+                </span>
+                <div style="padding-left: 25px;">
+                    <span class="checkbox_b">
+                        <input type="checkbox" name="youandwho" value="friends"/>
+                        <p>Your friends</p>
+                    </span>
+                    <span class="checkbox_b">
+                        <input type="checkbox" name="youandwho" value="family"/>
+                        <p>Your family</p>
+                    </span>
+                </div>
+                <span class="radio_b">
+                    <input type="radio" name="whocansee" value="anyone"/>
+                    <p>Anyone</p>
+                </span>
+                </form>
+            </div>
+            </td>
+            </tr></table>
+        </div>
+        </td>
+        </table>
 
 		<!-- Page to show during authorization -->
 		<div id="page_auth" flex="1">
