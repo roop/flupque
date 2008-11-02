@@ -47,7 +47,7 @@ var photo = {
         img.setAttribute('height', 8);
         img.src = '../skin/balls-16x8-trans.gif';
         var li = document.createElement('li');
-        li.id = 'photo' + id;
+        li.id = 'li_photo' + id;
         img.name = 'photo' + id;
         img.id = id;
         li.appendChild(img);
@@ -88,6 +88,18 @@ var photo = {
         document.getElementById('t_remove').className = 'disabled_button';
         document.getElementById('t_rotate_l').className = 'disabled';
         document.getElementById('t_rotate_r').className = 'disabled';
+    },
+
+    remove_selected_photos: function() {
+        for (var i = 0; i < this.photolist.length; i++) {
+            if (this.photolist[i] != undefined && this.photolist[i].is_selected) {
+                var li = document.getElementById('li_photo' + this.photolist[i].id);
+                li.parentNode.removeChild(li);
+                delete this.photolist[i];
+            }
+        }
+        this.selectedcount = 0;
+        this.disable_photo_actions();
     }
 };
 
