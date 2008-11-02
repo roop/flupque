@@ -31,7 +31,6 @@ QString Turks::createThumbnail(QString imgPath, int width, int height,
 }
 
 void Turks::evaluateJavascript(QString javascriptOnResult) {
-    qDebug() << "Evaluating " << javascriptOnResult;
     m_frame->evaluateJavaScript(javascriptOnResult);
 }
 

@@ -33,7 +33,6 @@ ThumbnailWorker::ThumbnailWorker(QString imagePath, int width, int height,
     while (QFileInfo(prefix + QString::number(i) + ".jpg").exists())
         i++;
     m_thumbnailPath = prefix + QString::number(i) + ".jpg";
-    qDebug() << "thumb name = " << m_thumbnailPath;
 
     // create a zero-byte file by that name right away
     m_thumbnailFile.setFileName(m_thumbnailPath);
@@ -66,7 +65,6 @@ void ThumbnailWorker::run() {
     m_javascriptOnResult.replace(m_javascriptOnResult.indexOf("$3"), 2,
                                     QString::number(thumb.height()));
     // tell the main thread that we're done
-    qDebug() << "Created thumbnail " << m_thumbnailPath;
     emit thumbnailCreated(m_javascriptOnResult);
     emit deleteThread(this);
 }
