@@ -37,7 +37,9 @@ ThumbnailWorker::ThumbnailWorker(QString imagePath, int width, int height,
 
     // create a zero-byte file by that name right away
     m_thumbnailFile.setFileName(m_thumbnailPath);
-    m_thumbnailFile.open(QIODevice::WriteOnly);
+    if (!m_thumbnailFile.open(QIODevice::WriteOnly)) {
+        m_thumbnailPath = QString();
+    }
 }
 
 ThumbnailWorker::~ThumbnailWorker() {
@@ -51,6 +53,8 @@ QString ThumbnailWorker::thumbnailPath() {
 void ThumbnailWorker::run() {
     sleep(5);
     // create the thumbnail
+    if (m_imagePath.isEmpty() || m_thumbnailPath.isEmpty())
+        return;
     QImage image(m_imagePath);
     image.scaled(m_width, m_height, Qt::KeepAspectRatio).save(&m_thumbnailFile, "jpg");
     // insert the thumbnail filename in the javascript
