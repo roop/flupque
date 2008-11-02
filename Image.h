@@ -29,7 +29,6 @@ public:
     void run();
 signals:
     void thumbnailCreated(QString javascriptOnResult);
-    void deleteThread(QThread *thread);
 private:
     QString m_imagePath;
     int m_width;

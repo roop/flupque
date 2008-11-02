@@ -28,7 +28,6 @@ public slots:
     QString createThumbnail(QString imgPath, int width, int height,
                             QString javascriptOnResult);
     void evaluateJavascript(QString javascriptOnResult);
-    void deleteThread(QThread *thread);
 private:
     QWebFrame *m_frame;
     QList<QThread*> threads;

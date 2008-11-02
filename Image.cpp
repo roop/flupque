@@ -66,6 +66,5 @@ void ThumbnailWorker::run() {
                                     QString::number(thumb.height()));
     // tell the main thread that we're done
     emit thumbnailCreated(m_javascriptOnResult);
-    emit deleteThread(this);
 }
 

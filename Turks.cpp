@@ -29,8 +29,6 @@ QString Turks::createThumbnail(QString imgPath, int width, int height,
     QString thumbnailPath = thumbWorker->thumbnailPath();
     connect(thumbWorker, SIGNAL(thumbnailCreated(QString)),
             this, SLOT(evaluateJavascript(QString)));
-    connect(thumbWorker, SIGNAL(deleteThread(QThread*)),
-            this, SLOT(deleteThread(QThread*)));
     thumbWorker->start();
     threads.append(thumbWorker);
     return thumbnailPath;
@@ -38,9 +36,5 @@ QString Turks::createThumbnail(QString imgPath, int width, int height,
 
 void Turks::evaluateJavascript(QString javascriptOnResult) {
     m_frame->evaluateJavaScript(javascriptOnResult);
-}
-
-void Turks::deleteThread(QThread *thread) {
-   // delete thread;
 }
 
