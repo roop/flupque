@@ -15,6 +15,9 @@
 #include <QDebug>
 #include <QImage>
 
+#ifndef __FLUPQUE_TURKS_H
+#define __FLUPQUE_TURKS_H
+
 class Turks : public QObject {
     Q_OBJECT
 public:
@@ -27,3 +30,4 @@ public slots:
     void deleteThread(QThread *thread);
 };
 
+#endif

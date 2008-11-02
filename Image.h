@@ -16,6 +16,9 @@
 #include <QImage>
 #include <QFile>
 
+#ifndef __FLUPQUE_IMAGE_H
+#define __FLUPQUE_IMAGE_H
+
 class ThumbnailWorker : public QThread {
     Q_OBJECT
 public:
@@ -36,3 +39,4 @@ private:
     QString m_javascriptOnResult;
 };
 
+#endif
