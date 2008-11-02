@@ -23,7 +23,7 @@ class Turks : public QObject {
     Q_OBJECT
 public:
     Turks(QWebFrame *frame);
-    ~Turks() {};
+    ~Turks();
 public slots:
     QString createThumbnail(QString imgPath, int width, int height,
                             QString javascriptOnResult);
@@ -31,6 +31,7 @@ public slots:
     void deleteThread(QThread *thread);
 private:
     QWebFrame *m_frame;
+    QList<QThread*> threads;
 };
 
 #endif

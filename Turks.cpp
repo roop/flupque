@@ -17,6 +17,11 @@
 Turks::Turks(QWebFrame *frame)
     : m_frame(frame) {};
 
+Turks::~Turks() {
+    for (int i = 0; i < threads.size(); i++)
+        delete threads[i];
+}
+
 QString Turks::createThumbnail(QString imgPath, int width, int height,
                         QString javascriptOnResult) {
     ThumbnailWorker *thumbWorker = new ThumbnailWorker(imgPath, width, height, 
@@ -27,6 +32,7 @@ QString Turks::createThumbnail(QString imgPath, int width, int height,
     connect(thumbWorker, SIGNAL(deleteThread(QThread*)),
             this, SLOT(deleteThread(QThread*)));
     thumbWorker->start();
+    threads.append(thumbWorker);
     return thumbnailPath;
 }
 
