@@ -14,6 +14,9 @@
 #include "Turks.h"
 #include "Image.h"
 
+Turks::Turks(QWebFrame *frame)
+    : m_frame(frame) {};
+
 QString Turks::createThumbnail(QString imgPath, int width, int height,
                         QString javascriptOnResult) {
     ThumbnailWorker *thumbWorker = new ThumbnailWorker(imgPath, width, height, 
@@ -29,6 +32,7 @@ QString Turks::createThumbnail(QString imgPath, int width, int height,
 
 void Turks::evaluateJavascript(QString javascriptOnResult) {
     qDebug() << "Evaluating " << javascriptOnResult;
+    m_frame->evaluateJavaScript(javascriptOnResult);
 }
 
 void Turks::deleteThread(QThread *thread) {

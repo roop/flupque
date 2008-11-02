@@ -56,10 +56,15 @@ void ThumbnailWorker::run() {
     if (m_imagePath.isEmpty() || m_thumbnailPath.isEmpty())
         return;
     QImage image(m_imagePath);
-    image.scaled(m_width, m_height, Qt::KeepAspectRatio).save(&m_thumbnailFile, "jpg");
+    QImage thumb = image.scaled(m_width, m_height, Qt::KeepAspectRatio);
+    thumb.save(&m_thumbnailFile, "jpg");
     // insert the thumbnail filename in the javascript
     m_javascriptOnResult.replace(m_javascriptOnResult.indexOf("$1"), 2,
                                     m_thumbnailPath);
+    m_javascriptOnResult.replace(m_javascriptOnResult.indexOf("$2"), 2,
+                                    QString::number(thumb.width()));
+    m_javascriptOnResult.replace(m_javascriptOnResult.indexOf("$3"), 2,
+                                    QString::number(thumb.height()));
     // tell the main thread that we're done
     qDebug() << "Created thumbnail " << m_thumbnailPath;
     emit thumbnailCreated(m_javascriptOnResult);

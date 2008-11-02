@@ -33,8 +33,8 @@ var photo = {
     },
 
     add_photo: function(path) {
-        var id = this.photocount;
-        this.photolist[this.photocount++] = path;
+        var id = this.photocount++;
+        this.photolist[id] = path;
 
         // hide the "Drag photos here" message in the middle of the window
         document.getElementById('photos_init').style.display = 'none';
@@ -47,10 +47,28 @@ var photo = {
         img.src = '../skin/balls-16x8-trans.gif';
         var li = document.createElement('li');
         li.id = 'photo' + id;
+        img.name = 'photo' + id;
         li.appendChild(img);
         var list = document.getElementById('photos_list');
         list.insertBefore(li, list.firstChild);
 
-    }
+        // create and insert the thumbnails in parallel threads
+        var thumb = window.fluTurks.createThumbnail(path, 116, 116, 
+                       "show_thumbnail( \"" + img.name + "\", \"$1\", $2, $3);"
+                       );
+    },
+
 };
+
+// The show_thumbnail function shall get called once the
+// thumbnail gets created in the worker thread
+function show_thumbnail(id, path, width, height) {
+    var img = document.images[id];
+    img.style.visibility = 'hidden';
+    img.className = '';
+    img.src = "file://" + path;
+    img.width = width;
+    img.height = height;
+    img.style.visibility = 'visible';
+}
 

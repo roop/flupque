@@ -16,6 +16,7 @@
 #include <QMainWindow>
 #include <QtWebKit> 
 #include "FileDialog.h"
+#include "Turks.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +28,11 @@ int main(int argc, char *argv[])
     view->load(QUrl("html/main.html"));
     view->show();
 
-    view->page()->mainFrame()->addToJavaScriptWindowObject("fluFileDialog", &fluFileDialog);
+    QWebFrame *webFrame = view->page()->mainFrame();
+    Turks fluTurks(webFrame);
+
+    webFrame->addToJavaScriptWindowObject("fluFileDialog", &fluFileDialog);
+    webFrame->addToJavaScriptWindowObject("fluTurks", &fluTurks);
 
     return app.exec();
 }

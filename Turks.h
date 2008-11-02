@@ -14,6 +14,7 @@
 #include <QThread>
 #include <QDebug>
 #include <QImage>
+#include <QWebFrame>
 
 #ifndef __FLUPQUE_TURKS_H
 #define __FLUPQUE_TURKS_H
@@ -21,13 +22,15 @@
 class Turks : public QObject {
     Q_OBJECT
 public:
-    Turks() {};
+    Turks(QWebFrame *frame);
     ~Turks() {};
+public slots:
     QString createThumbnail(QString imgPath, int width, int height,
                             QString javascriptOnResult);
-public slots:
     void evaluateJavascript(QString javascriptOnResult);
     void deleteThread(QThread *thread);
+private:
+    QWebFrame *m_frame;
 };
 
 #endif
