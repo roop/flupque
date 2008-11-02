@@ -5,4 +5,7 @@ MOC_DIR = moc
 
 QT += webkit
 
-SOURCES = main.cpp
+HEADERS = FileDialog.h
+
+SOURCES = FileDialog.cpp \
+          main.cpp
