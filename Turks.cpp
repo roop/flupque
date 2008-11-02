@@ -32,6 +32,6 @@ void Turks::evaluateJavascript(QString javascriptOnResult) {
 }
 
 void Turks::deleteThread(QThread *thread) {
-   delete thread;
+   // delete thread;
 }
 
