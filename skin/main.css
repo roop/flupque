@@ -531,7 +531,7 @@ div.toolbarseparator {
 
 /* Minimize jumping around with a min-height on the status messages */
 .thumb_height {
-	min-height: 103px;
+	min-height: 140px;
 }
 
 /* Two columns */

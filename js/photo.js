@@ -129,6 +129,10 @@ var photo = {
        preview_elem.src = img.src;
        preview_elem.width = img.width;
        preview_elem.height = img.height;
+       if (img.height > 100) { // portrait image
+           preview_elem.width = img.width * 100.0 / img.height;
+           preview_elem.height = '100';
+       }
        preview_elem.style.display = 'block';
 
 	   document.getElementById('meta_prompt').style.visibility = 'visible';
