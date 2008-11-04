@@ -17,6 +17,7 @@ var photo = {
     photolist: [],
     photocount: 0,
     selectedcount: 0,
+    metaeditorenabled: false,
 
     // Methods
     add_dialog: function() {
@@ -172,6 +173,9 @@ var photo = {
     },
 
     enable_meta_editor: function() {
+        if (this.metaeditorenabled == true) {
+            return;
+        }
         for (var m = 1; m <= 2; m++) {
             var meta_column = document.getElementById('meta_column_' + m);
             meta_column.className = "column";
@@ -184,9 +188,13 @@ var photo = {
                             }
             );
         }
+        this.metaeditorenabled = true;
     },
 
     disable_meta_editor: function() {
+        if (this.metaeditorenabled == false) {
+            return;
+        }
         for (var m = 1; m <= 2; m++) {
             var meta_column = document.getElementById('meta_column_' + m);
             meta_column.className = "column_disabled";
@@ -199,6 +207,7 @@ var photo = {
                             }
             );
         }
+        this.metaeditorenabled = false;
     }
 };
 
