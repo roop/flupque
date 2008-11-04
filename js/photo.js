@@ -77,6 +77,7 @@ var photo = {
             this.hide_meta_preview();
             this.show_meta_message();
         }
+        this.enable_meta_editor();
     },
 
     unselect_photo: function(id) {
@@ -87,6 +88,7 @@ var photo = {
             this.disable_photo_actions();
             this.hide_meta_preview();
             this.show_meta_message();
+            this.disable_meta_editor();
         }
         if (this.selectedcount == 1) {
             for (var i = 0; i < this.photolist.length; i++) {
@@ -167,7 +169,49 @@ var photo = {
 
         if (this.photocount == 0)
             document.getElementById('meta_prompt').style.visibility = 'hidden';
+    },
+
+    enable_meta_editor: function() {
+        for (var m = 1; m <= 2; m++) {
+            var meta_column = document.getElementById('meta_column_' + m);
+            meta_column.className = "column";
+            apply_on_all_descendants(meta_column, 
+                            function(node) {
+                                if (node.tagName == 'input' || node.tagName == 'textarea' ||
+                                    node.tagName == 'INPUT' || node.tagName == 'TEXTAREA') {
+                                    node.disabled = false;
+                                }
+                            }
+            );
+        }
+    },
+
+    disable_meta_editor: function() {
+        for (var m = 1; m <= 2; m++) {
+            var meta_column = document.getElementById('meta_column_' + m);
+            meta_column.className = "column_disabled";
+            apply_on_all_descendants(meta_column, 
+                            function(node) {
+                                if (node.tagName == 'input' || node.tagName == 'textarea' ||
+                                    node.tagName == 'INPUT' || node.tagName == 'TEXTAREA') {
+                                    node.disabled = false;
+                                }
+                            }
+            );
+        }
     }
+};
+
+
+function apply_on_all_descendants(node, fn) {
+        var children = node.childNodes;
+        for (var i = 0; i < children.length; i++) {
+            if (children[i] == undefined || children[i].tagName == undefined) {
+                continue;
+            }
+            apply_on_all_descendants(children[i], fn);
+            fn(children[i]);
+        }
 };
 
 // The show_thumbnail function shall get called once the

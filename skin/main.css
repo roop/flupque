@@ -502,11 +502,12 @@ div.toolbarseparator {
 
 /* Three states, depending on what's selected */
 #meta, #batch_meta, #no_meta, #meta_button {
-	width: 450px;
+	width: 425px;
 	padding: 5px;
 	background: #f8f8f8;
 	border-left: 1px solid #ddd;
 }
+
 #meta, #batch_meta {
 	/* display: none; */
 }
@@ -522,7 +523,7 @@ div.toolbarseparator {
 }
 
 /* No meta has disabled fields and lots of grey */
-#no_meta label, #no_meta p {
+#meta label.disabled, #meta p.disabled, #meta input.disabled {
 	color: #bbb;
 }
 #no_meta_sets {
@@ -535,10 +536,13 @@ div.toolbarseparator {
 }
 
 /* Two columns */
-.column {
+.column, .column_disabled {
 	width: 200px;
 	padding: 0 5px;
 	vertical-align: top;
+}
+.column_disabled {
+    color: #bbb;
 }
 #meta label, #batch_meta label, #no_meta label,
 #meta p, #batch_meta p, #no_meta p {
@@ -554,15 +558,16 @@ div.toolbarseparator {
 #meta input, #batch_meta input, #no_meta input {
 	width: 180px;
 }
-.radio_b {
-	width: auto;
+#meta input.radio_b, #meta input.checkbox_b {
+	width: 12px;
+	height: 12px;
     margin: 0;
     padding: 0;
+    margin-right: 5px;
 }
-.checkbox_b {
-	width: auto;
-    margin: 0;
-    padding: 0;
+
+#meta input.checkbox_b {
+    margin-left: 20px;
 }
 
 /* Initially, and while logged-out, don't show sets */
@@ -607,7 +612,7 @@ div.toolbarseparator {
 	background: white;
 	list-style-type: none;
 }
-#no_meta ul {
+#meta ul.disabled {
 	background: #f2f2f2;
 }
 #single_sets_added, #batch_sets_added {
