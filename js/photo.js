@@ -79,6 +79,7 @@ var photo = {
             this.show_meta_message();
         }
         this.enable_meta_editor();
+        this.load_meta_info_from_selection();
     },
 
     unselect_photo: function(id) {
@@ -100,6 +101,7 @@ var photo = {
                 }
             }
         }
+        this.load_meta_info_from_selection();
     },
 
     show_meta_message: function() {
@@ -167,6 +169,10 @@ var photo = {
         }
         this.selectedcount = 0;
         this.disable_photo_actions();
+        this.load_meta_info_from_selection();
+        this.hide_meta_preview();
+        this.show_meta_message();
+        this.disable_meta_editor();
 
         if (this.photocount == 0)
             document.getElementById('meta_prompt').style.visibility = 'hidden';
@@ -209,6 +215,38 @@ var photo = {
             );
         }
         this.metaeditorenabled = false;
+    },
+
+    load_meta_info_from_selection: function() {
+        document.forms.meta_column_1_form.meta_title.value = '';
+        document.forms.meta_column_1_form.meta_description.value = '';
+        document.forms.meta_column_1_form.meta_tags.value = '';
+        var is_public = true;
+        var is_friend = true;
+        var is_family = true;
+        for (var i = 0; i < this.photolist.length; i++) {
+            var photo = this.photolist[i];
+            if (photo != undefined && photo.is_selected) {
+                is_public = is_public && photo.meta.is_public;
+                is_friend = is_friend && photo.meta.is_friend;
+                is_family = is_family && photo.meta.is_family;
+                if (this.selectedcount == 1) {
+                    document.forms.meta_column_1_form.meta_title.value = photo.meta.title;
+                    document.forms.meta_column_1_form.meta_description.value = photo.meta.description;
+                    document.forms.meta_column_1_form.meta_tags.value = photo.meta.tags;
+                }
+            }
+        }
+        if (is_public) {
+            is_friend = false;
+            is_family = false;
+        }
+        if (this.selectedcount >= 1) {
+            document.forms.meta_column_2_form.meta_whocansee[0].checked = !is_public;
+            document.forms.meta_column_2_form.meta_whocansee[1].checked = is_public;
+            document.forms.meta_column_2_form.meta_youandwho[0].checked = is_friend;
+            document.forms.meta_column_2_form.meta_youandwho[1].checked = is_family;
+        }
     }
 };
 
@@ -242,6 +280,15 @@ function Photo(path, id) {
     this.id = id;
     this.name = name;
     this.is_selected = false;
+    var basename = path.match(/([^\/]+)$/)[0];
+    this.meta = {
+        title: basename,
+        description: "",
+        tags: '',
+        is_public: false,
+        is_friend: false,
+        is_family: false
+    };
 }
 
 function image_clicked(imgname) {
