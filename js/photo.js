@@ -202,7 +202,8 @@ var photo = {
                             function(node) {
                                 if (node.tagName == 'input' || node.tagName == 'textarea' ||
                                     node.tagName == 'INPUT' || node.tagName == 'TEXTAREA') {
-                                    node.disabled = false;
+                                    node.disabled = true;
+                                    node.value = '';
                                 }
                             }
             );
