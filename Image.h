@@ -15,11 +15,12 @@
 #include <QDebug>
 #include <QImage>
 #include <QFile>
+#include <QRunnable>
 
 #ifndef __FLUPQUE_IMAGE_H
 #define __FLUPQUE_IMAGE_H
 
-class ThumbnailWorker : public QThread {
+class ThumbnailWorker : public QObject, public QRunnable {
     Q_OBJECT
 public:
     ThumbnailWorker(QString imagePath, int width, int height,

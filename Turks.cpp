@@ -13,13 +13,12 @@
 
 #include "Turks.h"
 #include "Image.h"
+#include <QThreadPool>
 
 Turks::Turks(QWebFrame *frame)
     : m_frame(frame) {};
 
 Turks::~Turks() {
-    for (int i = 0; i < threads.size(); i++)
-        delete threads[i];
     for (int i = 0; i < thumbnails.size(); i++)
         if (QFile::exists(thumbnails[i]))
             QFile::remove(thumbnails[i]);
@@ -29,11 +28,11 @@ QString Turks::createThumbnail(QString imgPath, int width, int height,
                         QString javascriptOnResult) {
     ThumbnailWorker *thumbWorker = new ThumbnailWorker(imgPath, width, height, 
                                                         javascriptOnResult);
+    thumbWorker->setAutoDelete(false);
+    QThreadPool::globalInstance()->start(thumbWorker);
     QString thumbnailPath = thumbWorker->thumbnailPath();
     connect(thumbWorker, SIGNAL(thumbnailCreated(QString)),
             this, SLOT(evaluateJavascript(QString)));
-    thumbWorker->start();
-    threads.append(thumbWorker);
     thumbnails.append(thumbnailPath);
     return thumbnailPath;
 }

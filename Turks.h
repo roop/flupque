@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <QImage>
 #include <QWebFrame>
+#include <QRunnable>
 
 #ifndef __FLUPQUE_TURKS_H
 #define __FLUPQUE_TURKS_H
@@ -30,7 +31,6 @@ public slots:
     void evaluateJavascript(QString javascriptOnResult);
 private:
     QWebFrame *m_frame;
-    QList<QThread*> threads;
     QList<QString> thumbnails;
 };
 
