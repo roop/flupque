@@ -227,6 +227,7 @@ var photo = {
         var description = document.forms.meta_column_1_form.meta_description.value;
         var tags = document.forms.meta_column_1_form.meta_tags.value;
         var is_public = document.forms.meta_column_2_form.meta_whocansee[1].checked;
+        var is_public_undef = !is_public && !document.forms.meta_column_2_form.meta_whocansee[0].checked;
         var is_friend = document.forms.meta_column_2_form.meta_youandwho[0].checked;
         var is_family = document.forms.meta_column_2_form.meta_youandwho[1].checked;
         for (var i = 0; i < this.photolist.length; i++) {
@@ -234,12 +235,13 @@ var photo = {
             if (photo != undefined && photo.is_selected) {
                 if (title != '')
                     photo.meta.title = title;
-                photo.meta.is_public = is_public;
-                photo.meta.is_friend = is_friend;
-                photo.meta.is_family = is_family;
+                if (!is_public_undef)
+                    photo.meta.is_public = is_public;
                 if (this.selectedcount == 1) {
                     photo.meta.description = description;
                     photo.meta.tags = tags;
+                    photo.meta.is_friend = is_friend;
+                    photo.meta.is_family = is_family;
                 } else {
                     if (description != '') {
                         if (photo.meta.description != '')
@@ -261,6 +263,11 @@ var photo = {
                             combined_taglist.push(tag);
                         photo.meta.tags = combined_taglist.sort().join(", ");
                     }
+                    // the following checkbox state changes might result in bad ui:
+                    // can never remove is_friend for multiple photos at once.
+                    // but keeping it for now anyway, for want of a better ui (without an apply button)
+                    photo.meta.is_friend = photo.meta.is_friend || is_friend;
+                    photo.meta.is_family = photo.meta.is_family || is_family;
                 }
             }
         }
@@ -270,12 +277,14 @@ var photo = {
         document.forms.meta_column_1_form.meta_title.value = '';
         document.forms.meta_column_1_form.meta_description.value = '';
         document.forms.meta_column_1_form.meta_tags.value = '';
+        var is_private = true;
         var is_public = true;
         var is_friend = true;
         var is_family = true;
         for (var i = 0; i < this.photolist.length; i++) {
             var photo = this.photolist[i];
             if (photo != undefined && photo.is_selected) {
+                is_private = is_private && !photo.meta.is_public;
                 is_public = is_public && photo.meta.is_public;
                 is_friend = is_friend && photo.meta.is_friend;
                 is_family = is_family && photo.meta.is_family;
@@ -286,12 +295,12 @@ var photo = {
                 }
             }
         }
-        if (is_public) {
+        if (!is_private) {
             is_friend = false;
             is_family = false;
         }
         if (this.selectedcount >= 1) {
-            document.forms.meta_column_2_form.meta_whocansee[0].checked = !is_public;
+            document.forms.meta_column_2_form.meta_whocansee[0].checked = is_private;
             document.forms.meta_column_2_form.meta_whocansee[1].checked = is_public;
             document.forms.meta_column_2_form.meta_youandwho[0].checked = is_friend;
             document.forms.meta_column_2_form.meta_youandwho[1].checked = is_family;
