@@ -210,6 +210,7 @@ var photo = {
                                     node.tagName == 'INPUT' || node.tagName == 'TEXTAREA') {
                                     node.disabled = true;
                                     node.value = '';
+                                    node.checked = false;
                                 }
                             }
             );
