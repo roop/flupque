@@ -67,6 +67,7 @@ var photo = {
     },
 
     select_photo: function(id) {
+        this.save_meta_info_to_selection();
         document.images['photo' + id].className = 'selected';
         this.photolist[id].is_selected = true;
         this.selectedcount++;
@@ -83,6 +84,7 @@ var photo = {
     },
 
     unselect_photo: function(id) {
+        this.save_meta_info_to_selection();
         document.images['photo' + id].className = '';
         this.photolist[id].is_selected = false;
         this.selectedcount--;
@@ -114,8 +116,10 @@ var photo = {
        var msg_text;
        if (this.selectedcount == 0) {
             msg_text = "Select a photo (or many) to add titles, tags and descriptions"
+       } else if (this.selectedcount == 1) {
+            msg_text = "You can now change the title, description or tags of this photo"
        } else {
-            msg_text = "You can now replace all titles with a new one, add to existing descriptions, or add more tags."
+            msg_text = "You can now replace all titles with a new one, add to existing descriptions, or add more tags"
        }
        var status_msg = document.createTextNode(msg_text);
        var h3 = document.createElement('h3');
@@ -216,6 +220,50 @@ var photo = {
             );
         }
         this.metaeditorenabled = false;
+    },
+
+    save_meta_info_to_selection: function() {
+        var title = document.forms.meta_column_1_form.meta_title.value;
+        var description = document.forms.meta_column_1_form.meta_description.value;
+        var tags = document.forms.meta_column_1_form.meta_tags.value;
+        var is_public = document.forms.meta_column_2_form.meta_whocansee[1].checked;
+        var is_friend = document.forms.meta_column_2_form.meta_youandwho[0].checked;
+        var is_family = document.forms.meta_column_2_form.meta_youandwho[1].checked;
+        for (var i = 0; i < this.photolist.length; i++) {
+            var photo = this.photolist[i];
+            if (photo != undefined && photo.is_selected) {
+                if (title != '')
+                    photo.meta.title = title;
+                photo.meta.is_public = is_public;
+                photo.meta.is_friend = is_friend;
+                photo.meta.is_family = is_family;
+                if (this.selectedcount == 1) {
+                    photo.meta.description = description;
+                    photo.meta.tags = tags;
+                } else {
+                    if (description != '') {
+                        if (photo.meta.description != '')
+                            photo.meta.description += ' ';
+                        photo.meta.description += description;
+                    }
+                    if (tags != '') {
+                        var existing_taglist = photo.meta.tags.split(/\s*,\s*/);
+                        var new_taglist = tags.split(/\s*,\s*/);
+                        var taghash = {};
+                        for (var t = 0; t < existing_taglist.length; t++)
+                            if (existing_taglist[t].search(/\S/) >= 0)
+                                taghash[existing_taglist[t]] = 1;
+                        for (var t = 0; t < new_taglist.length; t++)
+                            if (new_taglist[t].search(/\S/) >= 0)
+                                taghash[new_taglist[t]] = 1;
+                        var combined_taglist = [];
+                        for (var tag in taghash)
+                            combined_taglist.push(tag);
+                        photo.meta.tags = combined_taglist.sort().join(", ");
+                    }
+                }
+            }
+        }
     },
 
     load_meta_info_from_selection: function() {
