@@ -544,6 +544,12 @@ div.toolbarseparator {
 .column_disabled {
     color: #bbb;
 }
+.youandwho {
+    color: #000;
+}
+.youandwho_disabled {
+    color: #bbb;
+}
 #meta label, #batch_meta label, #no_meta label,
 #meta p, #batch_meta p, #no_meta p {
 	margin: 4px 0 0 0;

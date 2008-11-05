@@ -248,6 +248,21 @@ var photo = {
             document.forms.meta_column_2_form.meta_youandwho[0].checked = is_friend;
             document.forms.meta_column_2_form.meta_youandwho[1].checked = is_family;
         }
+        this.meta_whocansee_changed();
+    },
+
+    meta_whocansee_changed: function() {
+        var youandwho_disabled = !document.forms.meta_column_2_form.meta_whocansee[0].checked;
+        var youandwho_list = document.forms.meta_column_2_form.meta_youandwho;
+        for (var i = 0; i < youandwho_list.length; i++) {
+            youandwho_list[i].disabled = youandwho_disabled;
+            if (youandwho_disabled)
+                youandwho_list[i].checked = false;
+        }
+        if (youandwho_disabled)
+            document.getElementById('meta_youandwho_div').className = "youandwho_disabled";
+        else
+            document.getElementById('meta_youandwho_div').className = "youandwho";
     }
 };
 
