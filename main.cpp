@@ -26,11 +26,11 @@ int main(int argc, char *argv[])
     Settings fluSettings("forwardbias", "flupque");
     FileDialog fluFileDialog;
 
-    QWebView *view = new QWebView();
-    view->load(QUrl("html/main.html"));
-    view->show();
+    QWebView view;
+    view.load(QUrl("html/main.html"));
+    view.show();
 
-    QWebFrame *webFrame = view->page()->mainFrame();
+    QWebFrame *webFrame = view.page()->mainFrame();
     Turks fluTurks(webFrame);
 
     webFrame->addToJavaScriptWindowObject("fluFileDialog", &fluFileDialog);
