@@ -18,6 +18,7 @@
 #include "FileDialog.h"
 #include "Turks.h"
 #include "Settings.h"
+#include "FlickrWebPage.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
 
     Settings fluSettings("forwardbias", "flupque");
     FileDialog fluFileDialog;
+    FlickrWebPage fluFlickrWebPage;
 
     QWebView view;
     view.load(QUrl("html/main.html"));
@@ -36,6 +38,7 @@ int main(int argc, char *argv[])
     webFrame->addToJavaScriptWindowObject("fluFileDialog", &fluFileDialog);
     webFrame->addToJavaScriptWindowObject("fluTurks", &fluTurks);
     webFrame->addToJavaScriptWindowObject("fluSettings", &fluSettings);
+    webFrame->addToJavaScriptWindowObject("fluFlickrWebPage", &fluFlickrWebPage);
 
     return app.exec();
 }

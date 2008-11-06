@@ -13,7 +13,10 @@ GPL for more details (http://www.gnu.org/licenses/gpl.html)
 <html>
 <link rel="stylesheet" type="text/css" href="../skin/main.css" />
 <script type="text/javascript" src="../js/photo.js"></script>
+<script type="text/javascript" src="../js/flickr_api.js"></script>
+<script type="text/javascript" src="../js/md5.js"></script>
 <body onload="photo.load_photos_from_settings_file();">
+        <div id="flickr_json_requests_container"/>
 		<!-- Header -->
 		<div align="left" id="head">
 			<div align="left" id="tools">
@@ -73,7 +76,7 @@ GPL for more details (http://www.gnu.org/licenses/gpl.html)
 							<ul align="right">
                                 <li>
 								<div id="login" class="small button"
-								onclick="buttons.login.click();"
+								onclick="flickr_api.get_frob();"
 								><div id="login_inner" align="left">Sign in</div></div>
                                 </li>
 							</ul>
