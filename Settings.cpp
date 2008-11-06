@@ -29,7 +29,7 @@ void Settings::endArray() {
     QSettings::endArray();
 }
 bool Settings::contains(const QString& key) const {
-    QSettings::contains(key);
+    return QSettings::contains(key);
 }
 void Settings::remove(const QString& key) {
     QSettings::remove(key);
