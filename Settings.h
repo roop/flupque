@@ -11,8 +11,8 @@ public:
              QObject * parent = 0);
 public slots:
    void setValue(const QString& key, const QString& value);
-   int valueInt(const QString& key) const;
-   QString valueString(const QString& key) const;
+   int valueInt(const QString& key, int defaultValue = 0) const;
+   QString valueString(const QString& key, const QString& defaultValue = QString()) const;
    void beginWriteArray(const QString & prefix, int size = -1);
    int beginReadArray(const QString & prefix);
    void endArray();

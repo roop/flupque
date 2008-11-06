@@ -13,11 +13,11 @@ Settings::Settings(const QString & organization,
 void Settings::setValue(const QString& key, const QString& value) {
     QSettings::setValue(key, value);
 }
-int Settings::valueInt(const QString& key) const {
-    return value(key).toInt();
+int Settings::valueInt(const QString& key, int defaultValue) const {
+    return value(key, defaultValue).toInt();
 }
-QString Settings::valueString(const QString& key) const {
-    return value(key).toString();
+QString Settings::valueString(const QString& key, const QString& defaultValue) const {
+    return value(key, defaultValue).toString();
 }
 void Settings::beginWriteArray(const QString & prefix, int size) {
     QSettings::beginWriteArray(prefix, size);
