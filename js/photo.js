@@ -15,7 +15,9 @@
 var photo = {
     // Member variables
     photolist: [],
-    photocount: 0,
+    photocount: 0, // NOTE: photolist.length can be higher than photocount since when we
+                   //       delete photos from a batch we only make photolist[i] as
+                   //       undefined. photolist.length is unchanged.
     selectedcount: 0,
     metaeditorenabled: false,
 
@@ -30,13 +32,17 @@ var photo = {
             var files = fluFileDialog.selectedFiles();
             for (var i = 0; i < files.length; i++) {
                 this.add_photo(files[i]);
+                // store details of the last added photo in the settings file
+                this.store_photodata_in_settings_file(this.photolist.length - 1);
             }
         }
+        this.store_photocount_in_settings_file();
     },
 
     add_photo: function(path) {
-        var id = this.photocount++;
+        var id = this.photolist.length;
         this.photolist[id] = new Photo(path, id);
+        this.photocount++;
 
         // hide the "Drag photos here" message in the middle of the window
         document.getElementById('photos_init').style.display = 'none';
@@ -64,6 +70,7 @@ var photo = {
 	        document.getElementById('meta_prompt').style.visibility = 'visible';
             this.show_meta_message();
         }
+        return this.photolist[id];
     },
 
     select_photo: function(id) {
@@ -169,8 +176,11 @@ var photo = {
                 var li = document.getElementById('li_photo' + this.photolist[i].id);
                 li.parentNode.removeChild(li);
                 delete this.photolist[i];
+                this.remove_photodata_in_settings_file(i);
+                this.photocount--;
             }
         }
+        this.store_photocount_in_settings_file();
         this.selectedcount = 0;
         this.disable_photo_actions();
         this.load_meta_info_from_selection();
@@ -269,6 +279,7 @@ var photo = {
                     photo.meta.is_friend = photo.meta.is_friend || is_friend;
                     photo.meta.is_family = photo.meta.is_family || is_family;
                 }
+                this.store_photodata_in_settings_file(i);
             }
         }
     },
@@ -304,6 +315,11 @@ var photo = {
             document.forms.meta_column_2_form.meta_whocansee[1].checked = is_public;
             document.forms.meta_column_2_form.meta_youandwho[0].checked = is_friend;
             document.forms.meta_column_2_form.meta_youandwho[1].checked = is_family;
+        } else {
+            document.forms.meta_column_2_form.meta_whocansee[0].checked = false;
+            document.forms.meta_column_2_form.meta_whocansee[1].checked = false;
+            document.forms.meta_column_2_form.meta_youandwho[0].checked = false;
+            document.forms.meta_column_2_form.meta_youandwho[1].checked = false;
         }
         this.meta_whocansee_changed();
     },
@@ -320,7 +336,51 @@ var photo = {
             document.getElementById('meta_youandwho_div').className = "youandwho_disabled";
         else
             document.getElementById('meta_youandwho_div').className = "youandwho";
+    },
+
+    store_photodata_in_settings_file: function(id) {
+        var fluSettings = window.fluSettings;
+        var photo = this.photolist[id];
+        if (photo != undefined) {
+            fluSettings.setValue("photos/" + id + "/path", photo.path);
+            fluSettings.setValue("photos/" + id + "/title", photo.meta.title);
+            fluSettings.setValue("photos/" + id + "/description", photo.meta.description);
+            fluSettings.setValue("photos/" + id + "/tags", photo.meta.tags);
+            fluSettings.setValue("photos/" + id + "/is_public", photo.meta.is_public);
+            fluSettings.setValue("photos/" + id + "/is_friend", photo.meta.is_friend);
+            fluSettings.setValue("photos/" + id + "/is_family", photo.meta.is_family);
+        }
+    },
+
+    store_photocount_in_settings_file: function() {
+        window.fluSettings.setValue("photos/size", this.photolist.length);
+    },
+
+    remove_photodata_in_settings_file: function(id) {
+        window.fluSettings.remove("photos/" + id);
+    },
+
+    load_photos_from_settings_file: function() {
+        var fluSettings = window.fluSettings;
+        var size = fluSettings.valueString("photos/size");
+        this.photolist.length = 0;
+        this.photocount = 0;
+        this.selectedcount = 0;
+        for (var id = 0; id < size; id++) {
+            if (fluSettings.contains("photos/" + id + "/path")) {
+                var photo = this.add_photo(fluSettings.valueString("photos/" + id + "/path"));
+                photo.meta.title = fluSettings.valueString("photos/" + id + "/title");
+                photo.meta.description = fluSettings.valueString("photos/" + id + "/description");
+                photo.meta.tags = fluSettings.valueString("photos/" + id + "/tags");
+                photo.meta.is_public = (fluSettings.valueString("photos/" + id + "/is_public") == "true");
+                photo.meta.is_friend = (fluSettings.valueString("photos/" + id + "/is_friend") == "true");
+                photo.meta.is_family = (fluSettings.valueString("photos/" + id + "/is_family") == "true");
+                photo.id = id;
+                photo.name = 'photo' + id;
+            }
+        }
     }
+
 };
 
 

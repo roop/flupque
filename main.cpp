@@ -17,11 +17,13 @@
 #include <QtWebKit> 
 #include "FileDialog.h"
 #include "Turks.h"
+#include "Settings.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    Settings fluSettings("forwardbias", "flupque");
     FileDialog fluFileDialog;
 
     QWebView *view = new QWebView();
@@ -33,6 +35,7 @@ int main(int argc, char *argv[])
 
     webFrame->addToJavaScriptWindowObject("fluFileDialog", &fluFileDialog);
     webFrame->addToJavaScriptWindowObject("fluTurks", &fluTurks);
+    webFrame->addToJavaScriptWindowObject("fluSettings", &fluSettings);
 
     return app.exec();
 }
