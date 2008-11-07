@@ -2,6 +2,8 @@ Now:
 - Uploading
 - Signout
 - Show how many MBs in this batch
+- Rotate
+- Show username if fullname is null
 
 Later:
 - Drag and drop
